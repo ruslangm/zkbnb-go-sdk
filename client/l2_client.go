@@ -1038,7 +1038,7 @@ func (c *l2Client) fullFillToAddrOps(ops *types.TransactOpts, to string) (*types
 		return nil, err
 	}
 	ops.ToAccountIndex = toAccount.Index
-	ops.ToAccountNameHash = toAccountNameHash
+	ops.ToAccountNameHash = "0x" + toAccountNameHash
 	return ops, nil
 }
 
