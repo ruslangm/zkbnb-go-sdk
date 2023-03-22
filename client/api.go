@@ -236,6 +236,25 @@ func NewZkBNBClientWithSeed(url, seed string, chainId uint64) (ZkBNBClient, erro
 	}, nil
 }
 
+func NewZkBNBClientWithSeedAndPrivateKey(url, seed string, privateKey string, chainId uint64) (ZkBNBClient, error) {
+	l1Signer, err := signer.NewL1Singer(privateKey)
+	if err != nil {
+		return nil, err
+	}
+	keyManager, err := accounts.NewSeedKeyManager(seed)
+	if err != nil {
+		return nil, err
+	}
+
+	return &l2Client{
+		endpoint:   url,
+		privateKey: privateKey,
+		chainId:    chainId,
+		l1Signer:   l1Signer,
+		keyManager: keyManager,
+	}, nil
+}
+
 func NewZkBNBL1Client(provider, zkbnbContract string) (ZkBNBL1Client, error) {
 	bscClient, err := ethclient.Dial(provider)
 	if err != nil {
